@@ -262,11 +262,61 @@
 
 
 
-## **四，总结**
+## **四，Windows下 rust-sgx Docker的尝试**
+
+docker 环境在 Linux 环境下能够方便的运行，在 Windows 能否使用进行使用呢? 下面是记录下来的尝试。目前来看 rust-sgx 的 docker 镜像在 Window下运行是**有困难**的。
+
+#### 1. 安装 Windows 10 环境
+
+Docker 对于 Windows 版本是有要求的，之前是 Windows 10 家庭版，无法安装 docker（如下图）。
+
+![docker](images/docker.png)
+
+重新安装了一台Windows 10 Enterprise 版本的环境，并按照安装步骤安装了 docker。<https://docs.docker.com/docker-for-windows/> 这个网址介绍了 docker 在 Windows 上的安装步骤。
+
+
+
+#### 2. 下载镜像
+
+- 通过 “Windows + r” 输入 “cmd” 来打开“命令行”
+- 查看docker 版本判断docker 是否安装成功： docker version
+- 登录docker hub（docker pull 需要用户登录）：docker login
+- 下载镜像： docker pull baiduxlab/sgx-rust
+
+#### 3. 下载 rust-sgx-sdk 代码
+
+`git clone https://github.com/baidu/rust-sgx-sdk.git`
+
+#### 4. 创建容器
+
+`docker run -v rust-sgx-sdk:/root/sgx -ti --device /dev/isgx baiduxlab/sgx-rust`
+**在这一步出现了问题：Windows 与 Linux 的设备管理机制不同，Windows下没有 /dev/isgx**。
+
+
+
+##### Windows下设备管理是怎样的？
+
+在安装了Windows 下的SGX PSW和驱动之后，在“设备管理”中可以看到有SGX 对应的设备，但是不清楚如何将这个设备映射到 docker 中与linux下的设备对应起来。
+![windows_sgx](images/windows_sgx.png)
+
+
+
+##### Windows下docker的设备映射
+
+在网上查了一下，目前 Windows 下 docker 对设备的支持非常有限，跨平台做映射更是困难。能够找到的设备映射的资料大多是关于如何在docker 中使用USB的（可以通过VirtualBox 的方式使用USB）， SGX 相对于USB冷门很多，找不到资料介绍如何映射SGX。
+
+
+
+#### 5. 后续
+
+- 我在 rust-sgx-sdk 的仓库中提了个 issue： https://github.com/baidu/rust-sgx-sdk/issues/81 ，看看 sdk 的开发者能不能给些建议？
+- 我们自己继续探索的话，需要积累两方面的知识：Windows下的设备管理和docker的设备映射机制，这个就研究的比较深了。
+
+
+
+## **五，总结**
 
 ​	在 linux 和 windows 系统下，都可以进行 SGX 程序的开发。Intel 提供了官方的驱动、SDK、PSW等软件，是用 c/c++ 语言开发的，开发时使用 c/cpp 编写程序是没有问题的。
 
-​	rust-sgx-sdk 提供了 rust 版本的SDK，还提供了 docker 环境，方便了用户的使用。docker 环境在 Linux 环境下能够方便的运行，在 Windows 能否使用进行使用呢? 由于我本地的 Windows 版本是 Windows 10 家庭版，无法安装 docker（如下图），所以没有实验，如果有需求，我可以找到机器实验一下。
-
-![docker](images/docker.png)
+​	rust-sgx-sdk 提供了 rust 版本的SDK，还提供了 docker 环境，方便了用户的使用。
 
