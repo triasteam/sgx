@@ -68,8 +68,8 @@ endif
 
 CUSTOM_LIBRARY_PATH := ./lib
 CUSTOM_BIN_PATH := ./bin
-CUSTOM_EDL_PATH := ../../edl
-CUSTOM_COMMON_PATH := ../../common
+CUSTOM_EDL_PATH := ./edl
+CUSTOM_COMMON_PATH := ./common
 
 ######## EDL Settings ########
 
