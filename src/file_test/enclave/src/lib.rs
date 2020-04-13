@@ -42,6 +42,8 @@ struct RandData {
     rand: u32,
 }
 
+static ARRAY:[u8;1000000000] = [0;1000000000];
+
 #[no_mangle]
 pub extern "C" fn write_file() -> i32 {
 
@@ -65,7 +67,7 @@ pub extern "C" fn write_file() -> i32 {
     };
 
     let mut total_size = 0;
-    for _ in 0..1000000000 {
+    for _ in 0..1000000000{
         let write_size = match file.write(data.as_slice()) {
             Ok(len) => len,
                 Err(_) => {
@@ -76,6 +78,13 @@ pub extern "C" fn write_file() -> i32 {
         total_size += write_size;
     }
 
+    let _ = match file.write(&ARRAY) {
+        Ok(len) => len,
+            Err(_) => {
+                println!("SgxFile::write failed.");
+                return 3;
+            },
+    };
     println!("write file success, write size: {}, {:?}.", total_size, rand);
     0
 }
