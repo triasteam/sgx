@@ -15,7 +15,7 @@
   SGX-hardware给了更简单的一种方式，clone下来这个仓库之后，编译
   test-sgx.c 后运行可执行文件，查看执行结果即可以知道，对执行结果的说明可以参考这个程序的README。
 
-  ![SGX-hardware](SGX-hardware.png)
+  ![SGX-hardware](images/SGX-hardware.png)
 
 
 
@@ -45,17 +45,17 @@
 
 <https://download.01.org/intel-sgx/> 这个网站提供各种版本的sgx软件下载，我们选择最新的 linux-2.4 版本。
 
-![versions](versions.png)
+![versions](images/versions.png)
 
 
 
 目录下有文档docs和对应于各种 Linux 发行版的软件包， 选择 ubuntu16.04-server。
 
-![ubuntu16.04](ubuntu16.04.png)
+![ubuntu16.04](images/ubuntu16.04.png)
 
 目录下是4 个安装文件，下载所有的内容。
 
-![softwares](softwares.png)
+![softwares](images/softwares.png)
 
 
 
@@ -63,7 +63,7 @@
 
 安装的说明文档在 docs目录下
 
-![install_docs](install_docs.png)
+![install_docs](images/install_docs.png)
 
 
 
@@ -95,7 +95,7 @@
 
 ##### 检查安装是否完成
 
-![after_install](after_install.png)
+![after_install](images/after_install.png)
 
 
 
@@ -128,7 +128,7 @@
 
 显示如下：
 
-![app](app.png)
+![app](images/app.png)
 
 
 
@@ -142,7 +142,7 @@
 
 在 <https://software.intel.com/en-us/sgx-sdk/download> 有 Windows 上SGX环境的下载
 
-![windows_download](windows_download.png)
+![windows_download](images/windows_download.png)
 
 点击Download 需要注册 intel 账户，填写一些信息。
 
@@ -150,7 +150,7 @@
 
 然后就可以开始下载，选择 Platform Software 和 SDK。
 
-![windowns_softwares](windowns_softwares.png)
+![windowns_softwares](images/windowns_softwares.png)
 
 ##### 安装
 
@@ -172,21 +172,21 @@
 
 新建一个 SGX Enclave 工程 sample_enclave
 
-![sgx_enclave](sgx_enclave.png)
+![sgx_enclave](images/sgx_enclave.png)
 
 工程结构如下所示
 
-![sgx_enclave2](sgx_enclave2.png)
+![sgx_enclave2](images/sgx_enclave2.png)
 
 在 sample_enclave.cpp 中添加一个函数
 
-![sgx_enclave3](sgx_enclave3.png)
+![sgx_enclave3](images/sgx_enclave3.png)
 
 
 
 在sample_enclave.edl 中添加相应的接口
 
-![sgx_enclave4](sgx_enclave4.png)
+![sgx_enclave4](images/sgx_enclave4.png)
 
 
 
@@ -196,7 +196,7 @@
 
 新建一个控制台应用程序工程 sgx_sample_app
 
-![sgx_sample_app](sgx_sample_app.png)
+![sgx_sample_app](images/sgx_sample_app.png)
 
 
 
@@ -204,41 +204,41 @@
 
 将上一个工程sample_enclave 添加进来
 
-![sgx_sample_app2](sgx_sample_app.png)
+![sgx_sample_app2](images/sgx_sample_app.png)
 
 
 
-![sgx_sample_app3](sgx_sample_app3.png)
+![sgx_sample_app3](images/sgx_sample_app3.png)
 
 
 
 添加 SGX Configuration
 
-![sgx_sample_app4](sgx_sample_app4.png)
+![sgx_sample_app4](images/sgx_sample_app4.png)
 
-![sgx_sample_app5](sgx_sample_app5.png)
+![sgx_sample_app5](images/sgx_sample_app5.png)
 
 
 
 代码结构如下
 
-![sgx_sample_app6](sgx_sample_app6.png)
+![sgx_sample_app6](images/sgx_sample_app6.png)
 
 ##### 修改代码
 
 在 sgx_sample_app.cpp 中修改 main 函数，调用 sample_enclave 中的 **foo** 函数。
 
-![sgx_sample_app7](sgx_sample_app7.png)
+![sgx_sample_app7](images/sgx_sample_app7.png)
 
 
 
 ##### 编译生成
 
-![sgx_sample_app8](sgx_sample_app8.png)
+![sgx_sample_app8](images/sgx_sample_app8.png)
 
 
 
-![sgx_sample_app9](sgx_sample_app9.png)
+![sgx_sample_app9](images/sgx_sample_app9.png)
 
 
 
@@ -250,23 +250,73 @@
 
 工作目录由 ProjectDir 改为 OutDir
 
-![sgx_sample_app10](sgx_sample_app10.png)
+![sgx_sample_app10](images/sgx_sample_app10.png)
 
 ##### 运行
 
 得到结果如下
 
-![sgx_sample_app11](sgx_sample_app11.png)
+![sgx_sample_app11](images/sgx_sample_app11.png)
 
 
 
 
 
-## **四，总结**
+## **四，Windows下 rust-sgx Docker的尝试**
+
+docker 环境在 Linux 环境下能够方便的运行，在 Windows 能否使用进行使用呢? 下面是记录下来的尝试。目前来看 rust-sgx 的 docker 镜像在 Window下运行是**有困难**的。
+
+#### 1. 安装 Windows 10 环境
+
+Docker 对于 Windows 版本是有要求的，之前是 Windows 10 家庭版，无法安装 docker（如下图）。
+
+![docker](images/docker.png)
+
+重新安装了一台Windows 10 Enterprise 版本的环境，并按照安装步骤安装了 docker。<https://docs.docker.com/docker-for-windows/> 这个网址介绍了 docker 在 Windows 上的安装步骤。
+
+
+
+#### 2. 下载镜像
+
+- 通过 “Windows + r” 输入 “cmd” 来打开“命令行”
+- 查看docker 版本判断docker 是否安装成功： docker version
+- 登录docker hub（docker pull 需要用户登录）：docker login
+- 下载镜像： docker pull baiduxlab/sgx-rust
+
+#### 3. 下载 rust-sgx-sdk 代码
+
+`git clone https://github.com/baidu/rust-sgx-sdk.git`
+
+#### 4. 创建容器
+
+`docker run -v rust-sgx-sdk:/root/sgx -ti --device /dev/isgx baiduxlab/sgx-rust`
+**在这一步出现了问题：Windows 与 Linux 的设备管理机制不同，Windows下没有 /dev/isgx**。
+
+
+
+##### Windows下设备管理是怎样的？
+
+在安装了Windows 下的SGX PSW和驱动之后，在“设备管理”中可以看到有SGX 对应的设备，但是不清楚如何将这个设备映射到 docker 中与linux下的设备对应起来。
+![windows_sgx](images/windows_sgx.png)
+
+
+
+##### Windows下docker的设备映射
+
+在网上查了一下，目前 Windows 下 docker 对设备的支持非常有限，跨平台做映射更是困难。能够找到的设备映射的资料大多是关于如何在docker 中使用USB的（可以通过VirtualBox 的方式使用USB）， SGX 相对于USB冷门很多，找不到资料介绍如何映射SGX。
+
+
+
+#### 5. 后续
+
+- 我在 rust-sgx-sdk 的仓库中提了个 issue： https://github.com/baidu/rust-sgx-sdk/issues/81 ，看看 sdk 的开发者能不能给些建议？
+- 我们自己继续探索的话，需要积累两方面的知识：Windows下的设备管理和docker的设备映射机制，这个就研究的比较深了。
+
+
+
+## **五，总结**
 
 ​	在 linux 和 windows 系统下，都可以进行 SGX 程序的开发。Intel 提供了官方的驱动、SDK、PSW等软件，是用 c/c++ 语言开发的，开发时使用 c/cpp 编写程序是没有问题的。
 
-​	rust-sgx-sdk 提供了 rust 版本的SDK，还提供了 docker 环境，方便了用户的使用。docker 环境在 Linux 环境下能够方便的运行，在 Windows 能否使用进行使用呢? 由于我本地的 Windows 版本是 Windows 10 家庭版，无法安装 docker（如下图），所以没有实验，如果有需求，我可以找到机器实验一下。
-
-![docker](docker.png)
+​	rust-sgx-sdk 提供了 rust 版本的SDK，还提供了 docker 环境，方便了用户的使用。
 
